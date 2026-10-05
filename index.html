@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#472B29">
+<title>M. A. Silva USA · Proposal</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A proposal for M. A. Silva USA: one view of every customer, quote and order, built around how you sell, with your Epicor data included.">
+<meta property="og:title" content="M. A. Silva USA · Proposal">
+<meta property="og:description" content="One view of every customer, quote and order. Start with a two-week Discovery, credited toward your build.">
+<meta property="og:type" content="website">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23472B29'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' text-anchor='middle' fill='%23FFBC7D'%3EMA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alatsi&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* M. A. Silva brand, taken from masilva.com */
+  --ink:#221F1C; --bark:#53493C; --taupe:#A3968E; --cork:#FFBC7D; --wine:#472B29; --forest:#0D2B24; --olive:#46533C; --gold:#A48D29; --sky:#6EC1E4;
+  --cork-deep:#472B29; /* accent text on light slides = brand burgundy */
+  --cream:#F6F2EC; --paper:#FFFFFF; --line:#E4DCD2; --muted:#5E564D; --cork-soft:#F3EBE2; --sky-soft:#E6F4FA; --ok:#2f7d5b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:Montserrat,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Alatsi,"Arial Narrow",sans-serif;font-weight:400;line-height:1.15;letter-spacing:.01em}
+h1{font-size:clamp(38px,5.6vw,68px);text-transform:uppercase;letter-spacing:.02em}
+h2{font-size:clamp(28px,3.4vw,46px);margin-bottom:14px}
+h3{font-size:21px;margin-bottom:6px}
+p{margin:8px 0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cork-deep);margin-bottom:12px}
+.dark .eyebrow{color:var(--cork)}.eyebrow{font-weight:700}
+.lede{font-size:clamp(16px,1.5vw,20px);color:var(--muted);max-width:760px}
+.dark .lede{color:#d8cfc6}
+.mini{font-size:13px;color:var(--muted)}
+.dark .mini{color:#b9aea3}
+
+/* slideshow mechanics */
+.slideshow{position:relative;width:100vw;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:104px 64px 110px;opacity:0;visibility:hidden;transform:translateX(80px);transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1),visibility .45s;overflow-y:auto}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide.prev{transform:translateX(-80px)}
+.slide.light{background:var(--paper)} .slide.cream{background:var(--cream)}
+.slide.dark{background:var(--ink);color:#fff}.slide.wine{background:var(--wine)}.slide.forest{background:var(--forest)}
+.slide-content{max-width:1080px;width:100%;margin:auto 0}
+.center{text-align:center} .center .lede{margin-left:auto;margin-right:auto}
+.corner-logo{position:absolute;top:16px;right:24px;height:74px;z-index:5;background:var(--ink);border-radius:8px;padding:8px 14px}
+.dark .corner-logo{background:none;padding:0;height:70px}
+.hero-logo{display:block;margin:0 auto 26px;height:clamp(90px,14vw,150px)}
+
+.nav{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:100}
+.nav-dot{width:9px;height:9px;border-radius:50%;background:#d6ccc0;cursor:pointer;border:0;padding:0;transition:all .3s}
+.nav-dot.active{background:var(--wine);transform:scale(1.35)}
+.nav-arrows{position:fixed;bottom:28px;right:36px;display:flex;gap:10px;z-index:100}
+.nav-arrow{width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid var(--line);color:var(--ink);font-size:19px;cursor:pointer;font-family:inherit;transition:all .2s}
+.nav-arrow:hover{background:var(--wine);border-color:var(--wine);color:#fff} .nav-arrow:disabled{opacity:.3;cursor:not-allowed}
+.slide-counter{position:fixed;bottom:40px;left:40px;font-size:13px;font-weight:700;color:var(--muted);z-index:101}
+.byline{position:fixed;bottom:18px;left:40px;font-size:11px;font-weight:500;color:#9a8f84;z-index:101}
+.nav-band{position:fixed;left:0;right:0;bottom:0;height:86px;z-index:99;background:rgba(250,246,240,.94);backdrop-filter:blur(6px);border-top:1px solid rgba(34,31,28,.07);pointer-events:none}
+.progress{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(34,31,28,.08);z-index:102}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--forest),var(--wine),var(--cork));transition:width .3s}
+body.on-dark .nav-band{background:transparent;border-top-color:transparent;backdrop-filter:none}
+body.on-dark .slide-counter,body.on-dark .byline{color:#b9aea3}
+body.on-dark .nav-dot{background:#5a5047} body.on-dark .nav-dot.active{background:var(--cork)}
+html:not(.js),html:not(.js) body{height:auto;overflow:auto}
+html:not(.js) .slideshow{height:auto;overflow:visible}
+html:not(.js) .slide{position:relative;opacity:1;visibility:visible;transform:none;min-height:100vh}
+html:not(.js) .nav,html:not(.js) .nav-arrows,html:not(.js) .slide-counter,html:not(.js) .progress,html:not(.js) .nav-band{display:none}
+@media print{.slide{position:relative!important;opacity:1;visibility:visible;transform:none;page-break-after:always;min-height:100vh}.nav,.nav-arrows,.slide-counter,.progress,.nav-band,.byline{display:none}html,body{height:auto;overflow:visible}}
+
+/* components */
+.grid{display:grid;gap:16px;margin-top:20px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.cream .card{background:#fff}
+.dark .num{background:var(--cork);color:var(--ink)}.dark .card{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+.card ul{padding-left:18px;margin-top:6px} .card li{margin:5px 0;font-size:15px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--wine);color:#fff;font-family:Alatsi,sans-serif;font-size:18px;margin-bottom:10px}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--cork-soft);color:var(--wine)}
+.dark .pill{background:rgba(255,188,125,.18);color:var(--cork)}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:nth-child(even) td{background:rgba(34,31,28,.025)}
+.flow{display:flex;align-items:stretch;gap:10px;margin-top:22px;flex-wrap:wrap}
+.step{flex:1 1 150px;background:var(--cork-soft);border:1px solid var(--line);border-radius:12px;padding:14px 14px;font-size:14px}
+.step b{display:block;font-family:Alatsi,sans-serif;margin-bottom:4px}
+.arrow{align-self:center;color:var(--gold);font-size:22px;font-weight:700}
+.price{font-family:Alatsi,sans-serif;font-size:clamp(30px,3.4vw,44px);font-weight:700;color:var(--cork-deep);line-height:1.1;margin:6px 0}
+.dark .price{color:var(--cork)}
+.checks{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font-weight:500;font-size:15px}
+.checks span::before{content:"✓ ";color:var(--ok);font-weight:900}
+.btn{display:inline-block;margin-top:18px;background:var(--cork);color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;text-decoration:none;padding:14px 26px;border-radius:4px}
+.btn:hover{background:#ffd0a2}
+.btn.ghost{background:transparent;border:1.5px solid currentColor;margin-left:10px}
+.quote{border-left:4px solid var(--gold);padding:4px 0 4px 16px;margin-top:16px;color:var(--muted);font-style:italic}
+.slide.dense h2{font-size:clamp(24px,2.6vw,34px)}
+.slide.dense td,.slide.dense th{padding:7px 10px;font-size:13.5px}
+.slide.dense .card li,.slide.dense .card p{font-size:14px}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}.slide{padding:70px 22px 120px}.corner-logo{height:52px;top:10px;right:12px;padding:6px 10px}.dark .corner-logo{height:48px;padding:0}.slide{padding-top:84px}.arrow{display:none}.slide-counter,.byline{display:none}}
+
+/* sync options + rent vs own */
+.opt{width:100%;border-collapse:collapse;margin-top:16px;table-layout:fixed}.opt th:nth-child(1){width:25%}.opt th:nth-child(2){width:31%}.opt th:nth-child(3){width:14%}.opt th:nth-child(4){width:18%}.opt th:nth-child(5){width:12%}
+.opt th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--line)}
+.opt td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:14px}
+.opt tr:nth-child(even) td{background:transparent}
+.opt td b{font-family:Alatsi,sans-serif;font-weight:400;font-size:17px;display:block}
+.opt tr.own td{background:var(--cork-soft);border-bottom:2px solid var(--wine)}
+.opt .cost{font-family:Alatsi,sans-serif;font-size:19px;white-space:nowrap}
+.rb{position:relative;height:10px;min-width:150px;background:#ece6dd;border-radius:6px}
+.rb i{position:absolute;top:0;bottom:0;border-radius:6px;background:var(--taupe)}
+.own .rb i{background:var(--wine)}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.tag.rent{background:#ece6dd;color:var(--bark)} .tag.mine{background:var(--wine);color:#fff}
+.vs{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;margin-top:16px;align-items:start}
+.vs .card h3{margin-bottom:2px}.vs .card{padding:14px 16px}.vs .card li{margin:3px 0;font-size:13px}.vs .big{margin:2px 0}
+.big{font-family:Alatsi,sans-serif;font-size:clamp(24px,2.6vw,32px);color:var(--wine);line-height:1.1;margin:4px 0}
+.cmp-note{font-size:12.5px;color:var(--muted);margin-top:8px}
+.chart text{font-family:Montserrat,sans-serif;fill:var(--muted);font-size:11px}
+.chart .lbl{font-weight:700;font-size:12px}
+@media(max-width:900px){.vs{grid-template-columns:1fr}.rb{min-width:90px}}
+
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;align-items:stretch}
+.opt-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 12px}
+.opt-card.rec{border:2px solid var(--wine);box-shadow:0 10px 28px -14px rgba(71,43,41,.5)}
+.opt-card h3{font-size:17px;margin:8px 0 4px}
+.opt-card .price{font-size:clamp(24px,2.6vw,32px)}
+.opt-card .yr{font-family:Alatsi,sans-serif;font-size:19px;color:var(--ink);margin-top:6px}
+.opt-card .yr span{font-family:Montserrat,sans-serif;font-size:12px;color:var(--muted)}
+.opt-card .five{font-size:13px;margin:6px 0 8px;padding:6px 8px;background:var(--cork-soft);border-radius:8px}
+.opt-card ul{padding-left:18px}.opt-card li{font-size:12.5px;margin:3px 0}
+.badge{position:absolute;top:-11px;left:14px;background:var(--wine);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px}
+@media(max-width:900px){.opts{grid-template-columns:1fr}}
+
+.stack{display:flex;height:34px;border-radius:8px;overflow:hidden}
+.stack span{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;white-space:nowrap;padding:0 6px}
+
+.math{width:100%;border-collapse:collapse;margin-top:12px;table-layout:fixed;font-size:13px}
+.math th{font-family:Montserrat,sans-serif;font-weight:700;font-size:14px;text-align:left;padding:10px 10px;border-bottom:2px solid var(--line);vertical-align:bottom;text-transform:none;letter-spacing:0;color:var(--ink);position:relative}
+.math th small{display:block;font-family:Montserrat,sans-serif;font-size:11px;color:var(--muted);margin-top:2px}
+.math td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.math td small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.math td.rl{font-weight:600;color:var(--bark);width:20%}
+.math td.rec,.math th.rec{background:var(--cork-soft);border-left:2px solid var(--wine);border-right:2px solid var(--wine)}
+.math th.rec{border-top:2px solid var(--wine);padding-top:18px}
+.math tr:last-child td.rec{border-bottom:2px solid var(--wine)}
+.math tr.tot td{font-size:15px;border-top:2px solid var(--line);background:rgba(34,31,28,.03)}
+.math tr.tot td.rec{background:var(--cork-soft)}
+.math tr.rec td{background:var(--cork-soft)}
+.badge2{position:absolute;top:-1px;left:10px;transform:translateY(-50%);background:var(--wine);color:#fff;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:99px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.tile .n{font-family:Alatsi,sans-serif;font-size:clamp(24px,2.8vw,34px);color:var(--bark);line-height:1.1}
+.tile p{font-size:13px;color:var(--muted);margin:6px 0 0}
+.tile.mine{background:var(--wine);border-color:var(--wine)}.tile.mine .n{color:var(--cork)}.tile.mine p{color:#eadfd9}
+@media(max-width:900px){.tiles{grid-template-columns:1fr}.math{font-size:12px}}
+
+.ctl{margin:10px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--bark);margin-bottom:4px}
+.ctl label b{font-family:Alatsi,sans-serif;font-size:18px;color:var(--wine);font-weight:400}
+.ctl input[type=range]{width:100%;accent-color:var(--wine)}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 4px;font:600 12px Montserrat,sans-serif;color:var(--bark);cursor:pointer}
+.seg button.on{background:var(--wine);color:#fff;border-color:var(--wine)}
+.gm-result{font-size:14px;margin:10px 0 0;padding:10px 12px;background:var(--cork-soft);border-radius:10px;border-left:4px solid var(--wine)}
+#gm-chart text{font-family:Montserrat,sans-serif;fill:var(--muted);font-size:11px}
+
+@media(max-width:900px){.slide-content table.math,.slide-content table.opt{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.slide-content table.math{min-width:0}}
+
+.slide.dense{padding:84px 56px 92px}
+.slide.dense h2{margin-bottom:8px}
+.slide.dense .lede{margin-top:2px}
+.slide.dense .card{padding:12px 14px}
+.slide.dense .cmp-note{margin-top:6px}
+.slide.dense .grid{margin-top:12px;gap:12px}
+.slide.dense table td,.slide.dense table th{padding-top:6px;padding-bottom:6px}
+@media(max-width:900px){.slide.dense{padding:76px 18px 112px}}
+
+.hero-logo{max-width:100%;width:auto;object-fit:contain}
+.chart{max-width:100%;height:auto}
+@media(max-width:900px){.vs{grid-template-columns:1fr!important}.tiles{grid-template-columns:1fr!important}.slide-content,.card,.opt-card{min-width:0}.corner-logo{max-width:46vw;width:auto}}
+
+.gain{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px;table-layout:fixed}
+.gain th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px;border-bottom:2px solid var(--line)}
+.gain td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gain th:nth-child(1){width:34%}.gain th:nth-child(2){width:28%}
+.gain td:nth-child(2){color:var(--muted)}
+.gain td:nth-child(3){background:var(--cork-soft);font-weight:500}
+@media(max-width:900px){.gain{display:block;overflow-x:auto}}
+
+.receipt{width:100%;border-collapse:collapse;margin-top:6px}
+.receipt td{padding:11px 4px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15px}
+.receipt td small{display:block;font-size:12px;color:var(--muted);margin-top:2px;font-weight:400}
+.receipt td.amt{text-align:right;white-space:nowrap;font-family:Alatsi,sans-serif;font-size:19px;width:34%}
+.receipt td.amt small{font-family:Montserrat,sans-serif}
+.receipt tr.total td{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);font-weight:700;font-size:16px;background:var(--cork-soft)}
+.receipt tr.total td.amt{font-size:24px;color:var(--wine)}
+.receipt tr.once td{border-bottom:0;color:var(--muted)}
+.watch{list-style:none;padding:0;margin:8px 0 0}
+.watch li{padding:10px 12px;margin:8px 0;background:#faf7f2;border-left:4px solid var(--gold);border-radius:6px;font-size:14px}
+
+.quotes .tile{padding:12px 16px;border-left:4px solid var(--gold)}
+.quotes .q{font-family:Alatsi,sans-serif;font-size:clamp(16px,1.7vw,21px);color:var(--bark);margin:0;line-height:1.25}
+
+.bet .tile{padding:10px 12px}
+.bet .tile .n{font-size:clamp(16px,1.6vw,21px)}
+@media(max-width:900px){.bet{grid-template-columns:1fr 1fr!important}}
+
+.short{width:100%;border-collapse:collapse;margin-top:14px}
+.short td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:clamp(14px,1.35vw,18px)}
+.short td.k{width:21%;font-family:Alatsi,sans-serif;color:var(--wine);font-size:clamp(16px,1.7vw,22px);white-space:nowrap}
+@media(max-width:900px){.short td.k{width:auto;white-space:normal;display:block;border-bottom:0;padding-bottom:0}.short td{display:block}}
+.payback{margin-top:10px;padding:10px 14px;background:var(--cork-soft);border-left:4px solid var(--wine);border-radius:8px;font-size:14px}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-top:8px;color:var(--bark)}
+.legend span{display:inline-flex;align-items:center}
+.ln{display:inline-block;width:28px;height:0;margin-right:7px}
+.ln.rent{border-top:3px dashed #A3968E}.ln.opt2{border-top:3px dotted #A48D29}.ln.own{border-top:4px solid #472B29}
+.dotk{display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFBC7D;border:2px solid #472B29;margin-right:7px}
+
+@media(max-width:900px){
+  html{-webkit-text-size-adjust:100%}
+  body{font-size:16px}
+  .slide{padding:78px 18px calc(118px + env(safe-area-inset-bottom));transform:none!important;justify-content:flex-start}
+  .slide.dense{padding:78px 18px calc(118px + env(safe-area-inset-bottom))}
+  .slide.dark,.slide.cream,.slide.light{justify-content:flex-start}
+  .slide-content{margin:0}
+  .slide.center-slide .slide-content{margin:auto 0}
+  h1{font-size:clamp(30px,9.2vw,42px)}
+  h2{font-size:clamp(23px,6.6vw,30px);line-height:1.18;margin-bottom:10px}
+  h3{font-size:18px}
+  .lede,.slide.dense .lede{font-size:16px!important}
+  .eyebrow{font-size:11px}
+  .corner-logo{height:38px!important;top:calc(12px + env(safe-area-inset-top));right:14px;padding:5px 9px!important}
+  .dark .corner-logo{height:34px!important;padding:0!important}
+  .hero-logo{height:72px!important;margin-bottom:16px}
+  /* navigation: arrows left and right, counter centered, no dots */
+  .nav{display:none}
+  .nav-band{height:calc(78px + env(safe-area-inset-bottom))}
+  body.on-dark .nav-band{background:linear-gradient(to top,rgba(14,12,11,.88) 55%,rgba(14,12,11,0))!important;border:0!important}
+  .nav-arrows{left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));justify-content:space-between}
+  .nav-arrow{width:54px;height:54px;font-size:22px;box-shadow:0 8px 22px -10px rgba(34,31,28,.5)}
+  .slide-counter{display:block!important;left:50%;transform:translateX(-50%);bottom:calc(32px + env(safe-area-inset-bottom));font-size:14px;letter-spacing:.04em}
+  .byline{display:none}
+  /* cards, grids, tiles */
+  .grid{gap:12px}
+  .card,.slide.dense .card{padding:16px 16px}
+  .card ul{padding-left:18px}.card li{font-size:15px}
+  .opt-card{padding:18px 16px}.opt-card li{font-size:14px}
+  .tiles{gap:10px}
+  .tile{padding:14px 16px}
+  .tile .n{font-size:26px}
+  .cmp-note,.mini{font-size:13px}
+  .num{width:38px;height:38px}
+  /* charts: legend carries the labels */
+  .chart .lbl{display:none}
+  .chart{overflow:visible;margin-left:4px}
+  .chart text{font-size:14.5px}
+  .opt.stackable td:first-child{font-weight:400}
+  .opt.stackable td:first-child b{font-weight:700;font-size:17px}
+  .legend{font-size:14px}
+  /* sliders */
+  .ctl input[type=range]{height:36px}
+  .ctl label{font-size:14px}
+  .seg button{padding:11px 4px;font-size:13px}
+  /* stacked tables: label above value, one cell per line */
+  table.stackable{display:block;width:100%!important;border:0;margin-top:12px;table-layout:auto}
+  table.stackable tbody{display:block}
+  table.stackable tr.hdr{display:none}
+  table.stackable tr{display:block;margin:0 0 12px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+  table.stackable td{display:block;width:auto!important;text-align:left;border:0!important;border-bottom:1px solid var(--line)!important;padding:10px 14px;background:transparent!important;font-size:15px;line-height:1.35}
+  table.stackable td:last-child{border-bottom:0!important}
+  table.stackable td:first-child{font-weight:700;background:var(--cork-soft)!important;font-size:16px;color:var(--ink)}
+  table.stackable td::before{content:attr(data-label);display:block;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  table.stackable td:first-child::before{display:none}
+  table.stackable td.rec{background:var(--cork-soft)!important;border-left:0!important;border-right:0!important}
+  table.stackable td.rec b,table.stackable td b{font-size:17px}
+  table.stackable.text td b{font-size:inherit}
+  table.stackable td small{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:3px}
+  table.stackable tr.tot td:first-child{background:var(--wine)!important;color:#fff}
+  table.stackable tr.tot td:not(:first-child){font-weight:700}
+  table.stackable .rb{min-width:0;width:100%;margin-top:4px}
+  table.stackable td.cost{font-size:20px}
+  .receipt td{font-size:15px}.receipt td.amt{font-size:18px}
+  .short td.k{font-size:20px}
+  .gm-result{font-size:15px}
+  .eyebrow{font-size:12px!important;letter-spacing:.12em}
+  .tag{font-size:12px}
+  .badge,.badge2{font-size:11px!important}
+  .receipt td small,.math td small,table.stackable td small,.ctl label small{font-size:13px!important}
+  .seg button{min-height:46px}
+  .opt-card .five{font-size:14px}
+  .tile p{font-size:14px}
+
+  .slide[data-title="Proposal"] .slide-content,.slide[data-title="Let's go"] .slide-content{margin:auto 0}
+}
+
+:focus-visible{outline:3px solid var(--cork-deep,#472B29);outline-offset:3px;border-radius:6px}
+.dark :focus-visible{outline-color:#FFBC7D}
+@media(prefers-reduced-motion:reduce){.slide,.progress span{transition:none!important}}
+.corner-logo,.hero-logo{image-rendering:auto}
+</style>
+</head>
+<body>
+<div class="slideshow" id="deck">
+
+<!-- 1 · Title -->
+<section class="slide dark wine" data-title="Proposal">
+  <div class="slide-content center">
+    <img class="hero-logo" alt="M. A. Silva. The perfect fit for your wine." onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+    <p class="eyebrow">M. A. Silva USA · Proposal</p>
+    <h1>One view of every customer, quote and order.</h1>
+    <p class="lede" style="margin-top:18px">Software built around how you actually quote and sell, by a partner who learns your business. Start with a $4,500 Discovery, credited toward your build, then choose how much you want to own. No change to how you run the business.</p>
+    <p class="mini" style="margin-top:28px">Prepared for Mike and the M. A. Silva team · by Gera Yeremin · 57 · October 2026</p>
+    <a class="btn" href="LOOM_LINK_HERE">Watch the 5-minute walkthrough</a>
+  </div>
+</section>
+
+<!-- The short version -->
+<section class="slide light" data-title="Short version">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">The short version</p>
+    <h2>If you read only one slide.</h2>
+    <table class="short">
+      <tr><td class="k">Where you are</td><td>You were about to choose a CRM and a connector to Epicor. Done the usual way, you pay twice for every user, and your process bends to the software.</td></tr>
+      <tr><td class="k">What I recommend</td><td>A CRM built around how you sell, with the Epicor sync built in, that you own. It works whichever way you take Epicor. Or start smaller and step up when you are ready.</td></tr>
+      <tr><td class="k">What it costs</td><td><b>$33K to $46K once, then $500 a month.</b> Over 5 years at 10 users that is about $3K less than renting, and every new user costs $0.</td></tr>
+      <tr><td class="k">How to start</td><td>A two-week Discovery for <b>$4,500, credited to your build</b>. You get a fixed price and a plain recommendation. No obligation to build with me.</td></tr>
+      <tr><td class="k">What you risk</td><td>Very little. Fixed price. The code and data are yours. You can cancel the Care Plan any time. AI is optional and stays off unless you turn it on.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 2 · What we heard -->
+<section class="slide cream" data-title="What we heard">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What I heard</p>
+    <h2>You want one clear view across what you already run.</h2>
+    <p class="eyebrow" style="margin-top:14px">In your words</p>
+    <div class="tiles quotes"><div class="tile"><p class="q">&ldquo;The organization doesn&rsquo;t know what it doesn&rsquo;t know.&rdquo;</p></div><div class="tile"><p class="q">&ldquo;We have all this data. But nobody really goes and looks at it.&rdquo;</p></div><div class="tile"><p class="q">&ldquo;How many times have we been surprised at the end of a quarter?&rdquo;</p></div></div>
+    <div class="grid g3">
+      <div class="card"><h3>Epicor is the system of record</h3><p>Outside it, things are manual and the floor machines are not connected. That is fine. We build on what you have.</p></div>
+      <div class="card"><h3>Sales needs a real CRM</h3><p>Notes live in a place that was not built for them. You have already picked Zoho.</p></div>
+      <div class="card"><h3>Quotes and orders blur</h3><p>Hard to tell which orders on the books are firm, or what your quote-to-order rate really is.</p></div>
+      <div class="card"><h3>The website is not a lead source</h3><p>Nobody has looked at where visitors come from, and there is no easy way to start a quote or order.</p></div>
+      <div class="card"><h3>Teams want time back</h3><p>Customer service retypes the same emails. Sales wants to follow up with the right customer at the right time.</p></div>
+      <div class="card"><h3>You cannot boil the ocean</h3><p>Start with the most useful thing, and build on it as it proves itself.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- What you gain -->
+<section class="slide light dense" data-title="What you gain">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What you gain</p>
+    <h2>Answers you cannot get today. Time back for your team. A system you own.</h2>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card"><span class="num">1</span><h3>Answers, on one screen</h3><p>Which orders on the books are firm. Your real quote-to-order rate, by customer and by rep. Which customers are slipping.</p></div>
+      <div class="card"><span class="num">2</span><h3>Time back for your team</h3><p>The next step for every quote and order is on screen. Reminders tell sales who to call. Less retyping, fewer "did you talk to them?" questions.</p></div>
+      <div class="card"><span class="num">3</span><h3>Growth without the bill</h3><p>Add salespeople without adding software fees. Add features when the business changes. The system is yours.</p></div>
+    </div>
+    <h3 style="margin-top:18px">The questions your team asks, and how they get answered</h3>
+    <table class="gain">
+      <tr><th>The question</th><th>Today</th><th>With your system</th></tr>
+      <tr><td><b>Is this order real, or a placeholder?</b></td><td>Ask around. Quotes and orders blur together in Epicor.</td><td>Firm POs and "likely" orders are marked, so the books are honest.</td></tr>
+      <tr><td><b>Did anyone talk to that customer about the payment?</b></td><td>Walk over and ask.</td><td>Every call, note and owner is on the account.</td></tr>
+      <tr><td><b>Which winery should we call this week?</b></td><td>Whoever someone remembers.</td><td>A list: "this time last year, they ordered X."</td></tr>
+      <tr><td><b>Where are we for the quarter?</b></td><td>Pull reports, rebuild them in Excel.</td><td>One dashboard: pipeline, firm orders, quote conversion.</td></tr>
+      <tr><td><b>What does one more salesperson cost us in software?</b></td><td>Another user, billed twice.</td><td>Nothing.</td></tr>
+    </table>
+    <p class="payback"><b>A rule of thumb:</b> the recommended option costs about $14,000 a year over 5 years, build included. If an average order earns you $5,000 in profit, about 3 extra orders a year cover it. Discovery replaces this with your real numbers.</p>
+  </div>
+</section>
+
+<!-- 4 · Zoho -->
+<section class="slide cream dense" data-title="Your CRM">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What you get · 1 of 2</p>
+    <h2>Your CRM, set up around how M. A. Silva sells.</h2>
+    <p class="lede">The CRM works when it matches your actual workflow.</p>
+    <div class="grid g2">
+      <div class="card"><h3>Stages that match your workflow</h3><ul>
+        <li>Map the real steps from first contact to quote to PO to shipped</li>
+        <li>Prepaid, net 30, credit hold and special terms handled as real states</li>
+        <li>Every account and opportunity has one owner</li></ul></div>
+      <div class="card"><h3>Your data, loaded in</h3><ul>
+        <li>Customers, contacts, quote history and order history from Epicor</li>
+        <li>Cleaned up on the way in so reps trust what they see</li>
+        <li>Wineries, distributors and suppliers kept distinct</li></ul></div>
+      <div class="card"><h3>Quote-to-order, finally visible</h3><ul>
+        <li>Conversion rate by customer, by rep, by product</li>
+        <li>A short required reason when a quote is lost (price, timing, freight, other)</li>
+        <li>Firm POs separated from "likely" orders on the books</li></ul></div>
+      <div class="card"><h3>Easy enough to use every day</h3><ul>
+        <li>Short, simple screens. Salespeople spend their time selling</li>
+        <li>Training and a one-page guide for the team</li>
+        <li>30 days of fixes after go-live</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · Website -->
+<section class="slide light" data-title="Website lead capture">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What you get · 2 of 2</p>
+    <h2>One button, one short form, and a human call within minutes.</h2>
+    <p class="lede">Today a quote starts with a phone call. Offer an easy second door, and let your team follow up fast.</p>
+    <div class="flow">
+      <div class="step"><b>Visitor lands</b>From search, LinkedIn, a trade show, or a campaign</div><div class="arrow">→</div>
+      <div class="step"><b>Short form</b>Product, quantity, timing, contact. Easy on a phone</div><div class="arrow">→</div>
+      <div class="step"><b>CRM lead + email</b>Assigned to a rep, who is notified right away</div><div class="arrow">→</div>
+      <div class="step"><b>Personal call</b>"We got your request, here is what to expect"</div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3>First, a look at your numbers</h3><p>I pull your website analytics and walk through them with you: where people come from, what they click, where they leave. Maybe there is something there, maybe not. Either way you will know.</p></div>
+      <div class="card"><h3>Real numbers on every lead</h3><p>Submissions, source, and outcome are tracked, so you can see what your marketing, including your new agency's work, actually produces. The only goal is leads you can count.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · Ground rules -->
+<section class="slide dark" data-title="Ground rules">
+  <img class="corner-logo" alt="M. A. Silva" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Ground rules</p>
+    <h2>Same inputs. Same outputs. One extra layer of visibility.</h2>
+    <div class="grid g3">
+      <div class="card"><h3>No change to how you do business</h3><p>Orders still enter Epicor the way they do now. Nobody learns a second way to take an order.</p></div>
+      <div class="card"><h3>A person stays in the loop</h3><p>Anything that goes to a customer is reviewed by your team before it is sent. AI is optional: nothing in the base build uses it, and it stays off unless you turn it on.</p></div>
+      <div class="card"><h3>Your data stays yours</h3><p>No proprietary data goes into public AI models. You own your data, your workflows and everything built for you.</p></div>
+    </div>
+    <p class="quote" style="color:#d8cfc6">"The system was built to answer my question." Your teams already know their jobs. The goal is the same answers, faster.</p>
+  </div>
+</section>
+
+<!-- Three ways -->
+<section class="slide light dense" data-title="Three ways">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Three ways to build it</p>
+    <h2>Rent it, own the connection, or own it all.</h2>
+    <p class="lede" style="font-size:16px">Every option delivers what you just saw. They differ in what you own, and in what you pay as your team grows. Discovery shows which fits.</p>
+    <div class="opts" style="margin-top:16px">
+      <div class="opt-card">
+        <span class="tag rent">Option 1 · Rent it</span>
+        <h3>Zoho Enterprise plus a ready-made connector</h3>
+        <ul style="margin-top:8px"><li>Fastest to start</li><li>You pay Zoho and the connector for every user</li><li>You own your data. The software and the connection stay rented</li></ul>
+      </div>
+      <div class="opt-card">
+        <span class="tag mine">Option 2 · Own the connection</span>
+        <h3>Zoho Enterprise plus a sync I build and you own</h3>
+        <ul style="margin-top:8px"><li>The Epicor sync is yours, built around your rules</li><li>Zoho stays rented, with its per-user fees</li><li>A natural first step toward Option 3</li></ul>
+      </div>
+      <div class="opt-card rec">
+        <div class="badge">Recommended</div>
+        <span class="tag mine">Option 3 · Own it all</span>
+        <h3>A CRM built around your business, Epicor sync built in</h3>
+        <ul style="margin-top:8px"><li>No per-user fees as you grow</li><li>Shaped to how you sell, and it changes when you do</li><li>Everything is yours</li></ul>
+      </div>
+    </div>
+    <p class="cmp-note" style="margin-top:14px">The next slides compare what each one costs, show what happens as you grow, and then give you the prices.</p>
+  </div>
+</section>
+
+<!-- 7 · Sync options -->
+<section class="slide light dense" data-title="Sync options">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Connecting Epicor to your CRM</p>
+    <h2>Five ways to connect Epicor. Four are rented. One is yours.</h2>
+    <p class="lede">Every option moves the same data: customers, orders, quotes, terms and credit hold. What differs is the cost over 3 years, and who owns it.</p>
+    <table class="opt">
+      <tr><th>Option</th><th class="how">How it works</th><th>3-year cost</th><th></th><th>Rent or own</th></tr>
+      <tr><td><b>Ready-made connector</b>Commercient and similar</td><td class="how">A vendor runs the sync on their rules, and most charge per user on top of your Zoho seats</td><td class="cost">$12K – $28K</td><td><div class="rb"><i style="left:13%;width:18%"></i></div></td><td><span class="tag rent">Rent</span></td></tr>
+      <tr><td><b>Epicor's own platform</b>Automation Studio</td><td class="how">A toolkit. The Zoho connection still has to be built, and it becomes available once you are on Kinetic</td><td class="cost">$14K – $29K<span class="mini" style="display:block;font-family:Montserrat,sans-serif;font-size:11px">plus build time</span></td><td><div class="rb"><i style="left:16%;width:16%"></i></div></td><td><span class="tag rent">Rent</span></td></tr>
+      <tr><td><b>Enterprise platforms</b>Workato, Boomi, Jitterbit</td><td class="how">Big general-purpose tools, built for dozens of systems</td><td class="cost">$30K – $84K</td><td><div class="rb"><i style="left:33%;width:60%"></i></div></td><td><span class="tag rent">Rent</span></td></tr>
+      <tr><td><b>Real-time sync service</b>Stacksync</td><td class="how">Two-way, real-time. Epicor support needs a technical review</td><td class="cost">$36K</td><td><div class="rb"><i style="left:39%;width:4%"></i></div></td><td><span class="tag rent">Rent</span></td></tr>
+      <tr class="own"><td><b>Custom sync, built for you</b>Runs on your own server</td><td class="how">Small program built around your rules: prepaid, net 30, credit hold, quotes vs orders. Code and docs are yours</td><td class="cost">$16K – $27K</td><td><div class="rb"><i style="left:18%;width:12%"></i></div></td><td><span class="tag mine">Own</span></td></tr>
+    </table>
+    <p class="cmp-note"><b>Rent</b> means a subscription that keeps billing as long as you use it, and you never own the code. <b>Own</b> means built once, with the build and three years of the Care Plan (server and help) included in the figure. Figures show the connection only, not Zoho seats or Zoho setup. Per-user connectors bill you twice: once to Zoho for each seat, once to the connector for the same seat. Vendor prices are published or industry estimates and are confirmed in Discovery. Zoho seats are priced on the next slide.</p>
+  </div>
+</section>
+
+<!-- Hidden fees -->
+<section class="slide cream dense" data-title="Hidden fees">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What the price page does not show</p>
+    <h2>At typical connector pricing, the $2,760 price tag becomes about $9,300 a year.</h2>
+    <p class="lede" style="font-size:15px">Zoho is a good product. Here is how the bill adds up for 10 users once you add the plan your process needs and the connector that links Zoho to Epicor.</p>
+    <div class="vs" style="grid-template-columns:1.15fr .85fr">
+      <div class="card">
+        <h3>One year, 10 users</h3>
+        <table class="receipt">
+          <tr><td>Zoho Professional<small>the price you see on the website, billed yearly</small></td><td class="amt">$2,760</td></tr>
+          <tr><td>Upgrade to Zoho Enterprise<small>your process has more than the 3 guided flows Professional allows</small></td><td class="amt">+ $2,040</td></tr>
+          <tr><td>Connector between Zoho and Epicor<small>most charge per user, on top of Zoho's own seats</small></td><td class="amt">+ $3,000 – $6,000</td></tr>
+          <tr class="total"><td>What you actually pay each year</td><td class="amt">about $9,300<small>range $7,800 – $10,800</small></td></tr>
+          <tr class="once"><td>Plus a one-time connector setup fee<small>quoted by the vendor</small></td><td class="amt">$3,000 – $10,000</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Other charges to watch for</h3>
+        <ul class="watch">
+          <li><b>Add-ons and sync limits.</b> Ask what is included. Custom requests and more frequent syncs can cost extra.</li>
+          <li><b>Contract terms.</b> One 2026 reviewer reports being locked into an expensive one-year contract.</li>
+          <li><b>Cost for a small company.</b> Several Capterra reviewers call Commercient expensive.</li>
+          <li><b>The move to Kinetic.</b> Connectors are sold per Epicor version (10 and Kinetic). Ask whether your move triggers a new setup fee.</li>
+        </ul>
+        <p class="cmp-note">Vendor prices are confirmed in Discovery.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;padding:12px 16px;background:var(--wine);border-color:var(--wine);color:#fff">
+      <p style="margin:0;font-size:15px"><b style="color:var(--cork)">A system built for you has none of these.</b> No per-user fee, no vendor setup fee, no tiers, no add-ons. One flat monthly Care Plan covers the server and help when you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Where a rented CRM runs out of room -->
+<section class="slide light dense" data-title="Rented CRM limits">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">What renting looks like as you customize</p>
+    <h2>Where a rented CRM runs out of room.</h2>
+    <p class="lede" style="font-size:15px">Zoho is a good product, and many teams run it well. The limits show up when your process has special cases. The last row is a customer's report, the rest is Zoho's documentation.</p>
+    <table class="math">
+      <tr><th>Where you hit it</th><th>What Zoho publishes</th><th>What it means for you</th></tr>
+      <tr><td class="rl">Guided process flows (Blueprints)</td><td>3 on Professional, 20 on Enterprise</td><td>Prepaid, net 30, credit hold and quote stages each need one. This is why I priced Enterprise.</td></tr>
+      <tr><td class="rl">Workflow rules</td><td>20 per module on Professional, 50 on Enterprise</td><td>Each assignment, reminder and alert uses one.</td></tr>
+      <tr><td class="rl">Custom code</td><td>Not available on Standard or Professional, except through extensions. Workflow code must finish in 30 seconds.</td><td>Anything unusual, like a credit-hold check on a quote, becomes code, billed by the hour.</td></tr>
+      <tr><td class="rl">Automation volume</td><td>An Enterprise customer reports a cap of 300 workflow actions an hour. The rest wait for the next hour.</td><td>A large Epicor sync could queue up. I would test this in Discovery.</td></tr>
+    </table>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><h3>What users report</h3><ul>
+        <li>An Enterprise customer said the hourly limits were not clear when they chose the plan, and updates arrived out of order once the cap hit.</li>
+        <li>Capterra reviewers describe a steep learning curve once customization gets deep.</li>
+        <li>A Zoho partner writes that custom logic needs a developer.</li></ul></div>
+      <div class="card"><h3>In fairness</h3><ul>
+        <li>One long-term user ran Zoho without IT help and found the API easy to work with.</li>
+        <li>Most failures that Zoho partners describe come from planning, not the product.</li>
+        <li>If your process stays standard, none of this matters.</li></ul></div>
+    </div>
+    <div class="card" style="margin-top:12px;padding:12px 16px;background:var(--wine);border-color:var(--wine);color:#fff">
+      <p style="margin:0;font-size:15px"><b style="color:var(--cork)">A system built around you has no plan tier to hit.</b> The rules are written for how M. A. Silva sells, and a new rule is a quoted feature, not an upgrade.</p>
+    </div>
+    <p class="cmp-note">Sources: Zoho edition limits and developer documentation; the Zoho community thread "Zoho limitations for enterprise license"; Capterra; codroiditlabs.com. Confirmed in Discovery.</p>
+  </div>
+</section>
+
+<!-- Rent vs own -->
+<section class="slide cream dense" data-title="Rent vs own">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Rent or own</p>
+    <h2>Owning pays for itself by year 4 at 10 users, and wins as you grow.</h2>
+    <div class="vs" style="grid-template-columns:1.05fr 1fr">
+      <div class="card">
+        <table class="math" style="margin-top:0">
+          <tr><th></th><th>Option 1 · Rent<small>Zoho Enterprise + a connector</small></th><th class="rec"><span class="badge2">Recommended</span>Option 3 · Own<small>A CRM built for you</small></th></tr>
+          <tr><td class="rl">Day one</td><td>$15K – $26K</td><td class="rec"><b>$33K – $46K</b></td></tr>
+          <tr><td class="rl">What you pay each year to keep it running</td><td>$9.4K – $12.4K<small>Zoho licenses $4.8K, a connector fee of $3K – $6K, and help when you need it, about $1.6K (12 hours at $130)</small></td><td class="rec"><b>$6K</b><small>one flat $500 a month Care Plan: server, backups, updates and help when you need it</small></td></tr>
+          <tr><td class="rl">Add one more user</td><td>$780 a year<small>$480 to Zoho plus about $300 to the connector</small></td><td class="rec"><b>$0</b></td></tr>
+          <tr><td class="rl">Need a new feature</td><td>Wait for the vendor, buy an add-on, or upgrade the plan</td><td class="rec">Quoted up front, built, yours</td></tr>
+          <tr><td class="rl">If you stop paying</td><td>The tool stops</td><td class="rec">It keeps running</td></tr>
+          <tr><td class="rl">You own</td><td>Your data and setup</td><td class="rec"><b>All of it</b></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Total cost over time, 10 users</h3>
+        <svg class="chart" viewBox="0 0 560 270" role="img" aria-label="Cumulative cost over 10 years. Zoho Enterprise plus a connector and help starts at 20 thousand dollars and rises to about 129 thousand. A custom CRM starts at 39 thousand and rises to about 101 thousand. The lines cross at about year 4.">
+          <g stroke="#E4DCD2" stroke-width="1"><line x1="50" y1="220" x2="540" y2="220"/><line x1="50" y1="153.3" x2="540" y2="153.3"/><line x1="50" y1="86.7" x2="540" y2="86.7"/><line x1="50" y1="20" x2="540" y2="20"/></g>
+          <text x="44" y="224" text-anchor="end">$0</text><text x="44" y="157" text-anchor="end">$50K</text><text x="44" y="91" text-anchor="end">$100K</text><text x="44" y="24" text-anchor="end">$150K</text>
+          <text x="50" y="240" text-anchor="middle">Now</text><text x="148" y="240" text-anchor="middle">Yr 2</text><text x="246" y="240" text-anchor="middle">Yr 4</text><text x="344" y="240" text-anchor="middle">Yr 6</text><text x="442" y="240" text-anchor="middle">Yr 8</text><text x="540" y="240" text-anchor="middle">Yr 10</text>
+          <polyline fill="none" stroke="#A3968E" stroke-width="3" stroke-dasharray="7 5" points="50,193.1 540,48.3"/>
+          <polyline fill="none" stroke="#472B29" stroke-width="4" points="50,168.0 99,160.0 148,152.0 197,140.9 540,84.9"/>
+          <circle cx="263.6" cy="130.0" r="7" fill="#FFBC7D" stroke="#472B29" stroke-width="2"/>
+          <text x="252" y="112" text-anchor="end" class="lbl" style="fill:#472B29">Cross at about year 4</text>
+          <text x="536" y="28" text-anchor="end" class="lbl" style="fill:#7a6d62">Rent (Option 1): about $129K</text>
+          <text x="536" y="104" text-anchor="end" class="lbl" style="fill:#472B29">Own (Option 3): about $101K</text>
+        </svg>
+        <div class="legend"><span><i class="ln rent"></i>Rent (Option 1): about $129K by year 10</span><span><i class="ln own"></i>Own (Option 3): about $101K</span><span><i class="dotk"></i>Cross at about year 4</span></div>
+        <p class="cmp-note">Rent line: $20K on day one plus $10.9K a year, including about $1.6K of help. Own line: $39K on day one plus $6K a year for the Care Plan, and a small Epicor-update reserve in year 3. At 10 users the lines cross at about year 4. At 20 users, at about year 1.5. Midpoint estimates, confirmed in Discovery. Not counted for renting: add-on fees, higher sync tiers, a second Kinetic connector setup, Zoho Analytics and price increases. All favor owning.</p>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Cheaper over time</h3><p style="font-size:13px;margin:0">Every year, owning costs about $5K less than renting, and more with each new user. The one-time build is the premium.</p></div>
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">No per-user fees</h3><p style="font-size:13px;margin:0">Grow the team without growing the bill.</p></div>
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">A tool no competitor can buy</h3><p style="font-size:13px;margin:0">Shaped to how M. A. Silva sells, quotes and ships.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Room to grow -->
+<section class="slide light dense" data-title="Room to grow">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Room to grow</p>
+    <h2>Hire your next salesperson. Your software bill does not move.</h2>
+    <div class="vs" style="grid-template-columns:1.1fr 1fr">
+      <div class="card">
+        <h3>What 5 years costs as the team grows</h3>
+        <svg class="chart" viewBox="0 0 560 270" role="img" aria-label="Five-year cost by team size. Renting with Zoho, a connector and help rises from 74 thousand dollars at 10 users to 152 thousand at 30 users. Owning the connection rises from 62 thousand to 110 thousand. Owning the whole CRM stays flat at 71 thousand. Owning the whole CRM already costs less than renting at 10 users and is the cheapest of all at about 14 users.">
+          <g stroke="#E4DCD2" stroke-width="1"><line x1="50" y1="220" x2="540" y2="220"/><line x1="50" y1="170" x2="540" y2="170"/><line x1="50" y1="120" x2="540" y2="120"/><line x1="50" y1="70" x2="540" y2="70"/><line x1="50" y1="20" x2="540" y2="20"/></g>
+          <text x="44" y="224" text-anchor="end">$0</text><text x="44" y="174" text-anchor="end">$40K</text><text x="44" y="124" text-anchor="end">$80K</text><text x="44" y="74" text-anchor="end">$120K</text><text x="44" y="24" text-anchor="end">$160K</text>
+          <text x="50" y="240" text-anchor="middle">10 users</text><text x="172.5" y="240" text-anchor="middle">15</text><text x="295" y="240" text-anchor="middle">20</text><text x="417.5" y="240" text-anchor="middle">25</text><text x="540" y="240" text-anchor="middle">30 users</text>
+          <polyline fill="none" stroke="#A3968E" stroke-width="3" stroke-dasharray="7 5" points="50,126.9 540,29.4"/>
+          <polyline fill="none" stroke="#A48D29" stroke-width="3" stroke-dasharray="2 4" points="50,143.1 540,83.1"/>
+          <polyline fill="none" stroke="#472B29" stroke-width="4.5" points="50,130.8 540,130.8"/>
+          <circle cx="150.4" cy="130.8" r="6" fill="#FFBC7D" stroke="#472B29" stroke-width="2"/>
+          <text x="158" y="157" class="lbl" style="fill:#472B29">Own is cheapest from about 14 users</text>
+          <text x="536" y="18" text-anchor="end" class="lbl" style="fill:#7a6d62">Rent (Option 1): about $152K</text>
+          <text x="536" y="70" text-anchor="end" class="lbl" style="fill:#8a7620">Own the connection (Option 2): about $110K</text>
+          <text x="536" y="123" text-anchor="end" class="lbl" style="fill:#472B29">Own it all (Option 3): about $71K, flat</text>
+        </svg>
+        <div class="legend"><span><i class="ln rent"></i>Rent (Option 1): about $152K at 30 users</span><span><i class="ln opt2"></i>Own the connection (Option 2): about $110K</span><span><i class="ln own"></i>Own it all (Option 3): about $71K, flat</span><span><i class="dotk"></i>Option 3 is the cheapest from about 14 users</span></div>
+        <p class="cmp-note">Midpoint estimates. Rent: Zoho Enterprise $480 a user plus about $300 a user to a per-user connector, plus about $1.6K a year of help. Option 2: $480 a user. Option 3: no per-user fees, so the Care Plan stays the same.</p>
+      </div>
+      <div>
+        <div class="card"><h3>If you add 5 salespeople</h3>
+          <table class="math" style="margin-top:6px">
+            <tr><th></th><th>More per year</th><th>More over 5 years</th></tr>
+            <tr><td><b>Option 1 · Rent</b></td><td>+ $3,900</td><td>+ $19,500</td></tr>
+            <tr><td><b>Option 2 · Own the connection</b></td><td>+ $2,400</td><td>+ $12,000</td></tr>
+            <tr class="rec"><td><b>Option 3 · Own it all</b></td><td><b>$0</b></td><td><b>$0</b></td></tr>
+          </table>
+        </div>
+        <div class="tiles" style="grid-template-columns:1fr 1fr;margin-top:12px">
+          <div class="tile mine"><div class="n">$42K</div><p>less than renting over 5 years at 20 users</p></div>
+          <div class="tile mine"><div class="n">$81K</div><p>less than renting over 5 years at 30 users</p></div>
+        </div>
+        <p class="cmp-note" style="margin-top:10px"><b>Straight talk:</b> at exactly 10 users the three options land within about $13K of each other over 5 years (renting about $74K, Option 2 about $62K, Option 3 about $71K). Option 3 already costs a little less than renting, and about $10K more than Option 2. The gap opens with every person you add. A new hire is there to bring in revenue, not to add a line to a software bill.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Model your growth -->
+<section class="slide cream dense" data-title="Model your growth">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Plan your growth</p>
+    <h2>Model your own growth. See what it does to your software bill.</h2>
+    <div class="vs" style="grid-template-columns:.8fr 1.2fr;margin-top:10px">
+      <div class="card">
+        <h3>Your numbers</h3>
+        <div class="ctl"><label>Users today <small style="font-weight:500;color:var(--muted)">(people who use the CRM)</small> <b id="gm-u0-v">10</b></label><input type="range" id="gm-u0" aria-label="Users today" min="5" max="40" step="1" value="10"></div>
+        <div class="ctl"><label>New users you add each year <b id="gm-g-v">3</b></label><input type="range" id="gm-g" aria-label="New users you add each year" min="0" max="10" step="1" value="3"></div>
+        <div class="ctl"><label>Yearly price increase from software vendors <b id="gm-p-v">0%</b></label><input type="range" id="gm-p" aria-label="Yearly price increase from software vendors, percent" min="0" max="15" step="1" value="0"></div>
+        <div class="ctl"><label>Look ahead</label>
+          <div class="seg" id="gm-h"><button type="button" data-h="3">3 years</button><button type="button" data-h="5" class="on">5 years</button><button type="button" data-h="10">10 years</button></div></div>
+        <p class="cmp-note" id="gm-users"></p>
+        <p class="cmp-note">Midpoint estimates. Rent: Zoho Enterprise $480 a user plus a per-user connector, plus about $1.6K a year of help. The Care Plan ($250 a month for Option 2, $500 for Option 3) does not change when you add people.</p>
+      </div>
+      <div class="card">
+        <h3 id="gm-title">Total cost over 5 years</h3>
+        <svg class="chart" id="gm-chart" viewBox="0 0 560 250" role="img" aria-label="Cumulative cost over time for each option, based on your numbers"></svg>
+        <div class="legend"><span><i class="ln rent"></i>Option 1 · Rent</span><span><i class="ln opt2"></i>Option 2 · Own the connection</span><span><i class="ln own"></i>Option 3 · Own it all</span><span><i class="dotk"></i>Where Option 3 becomes cheaper</span></div>
+        <div class="tiles" style="grid-template-columns:repeat(3,1fr);margin-top:8px">
+          <div class="tile"><p style="margin:0">Option 1 · Rent</p><div class="n" id="gm-o1">$74K</div></div>
+          <div class="tile"><p style="margin:0">Option 2 · Own the connection</p><div class="n" id="gm-o2">$62K</div></div>
+          <div class="tile mine"><p style="margin:0">Option 3 · Own it all</p><div class="n" id="gm-o3">$71K</div></div>
+        </div>
+        <p class="gm-result" id="gm-result"></p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;padding:12px 16px">
+      <h3 style="font-size:17px">A partner, not a vendor</h3>
+      <div class="grid g3" style="margin-top:6px;gap:12px">
+        <p style="font-size:13px;margin:0"><b>A software company</b> sets one price list for thousands of customers. It does not know your business, and prices can change at every renewal.</p>
+        <p style="font-size:13px;margin:0"><b>I know how M. A. Silva sells, quotes and ships.</b> So I plan your next hire, your next feature and your next cost with you.</p>
+        <p style="font-size:13px;margin:0"><b>A quarterly check-in is part of the Care Plan:</b> your numbers, your growth, and what is worth building next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New features -->
+<section class="slide light dense" data-title="New features">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">The biggest advantage of owning it</p>
+    <h2>Need a new feature? We just build it.</h2>
+    <p class="lede">Your business changes. Your tools should change with it, without waiting for a vendor.</p>
+    <div class="vs" style="grid-template-columns:1fr 1fr">
+      <div class="card"><span class="tag mine">With a tool built for you</span>
+        <ol style="padding-left:20px;margin-top:10px">
+          <li><b>You say what your team needs.</b> "Flag every credit-hold customer who just asked for a quote."</li>
+          <li><b>I quote it up front,</b> in writing, at $130 an hour. No minimum.</li>
+          <li><b>It is live in days to weeks,</b> and it fits how you work, because it is built on your data and your rules.</li>
+          <li><b>It is yours.</b> No add-on fee, no plan upgrade, no waiting for a roadmap.</li>
+        </ol></div>
+      <div class="card"><span class="tag rent">With a rented tool</span>
+        <ul style="margin-top:10px">
+          <li>The feature you need may not exist, so you wait for the vendor or work around it</li>
+          <li>Ready-made connectors are built for a standard process, so a custom request often means an add-on, a higher plan, or waiting</li>
+          <li>You adapt your process to the software</li>
+        </ul></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Examples built for a business like yours <span class="mini">(indicative price)</span></h3>
+      <table style="margin-top:6px">
+        <tr><td><b>Reorder reminders</b>: "this time last year, this winery ordered X"</td><td>about $3,250</td></tr>
+        <tr><td><b>Orders-on-the-books view</b>: firm POs vs quotes, with your real conversion rates</td><td>about $3,250</td></tr>
+        <tr><td><b>Call-note capture</b>: record the call, structured order details land in the record</td><td>about $2,600</td></tr>
+        <tr><td><b>Follow-up drafts</b> <span class="mini">(optional, uses AI)</span>: a first draft in your voice that a person reviews and sends</td><td>$2,000 – $3,250</td></tr>
+        <tr><td><b>Freight consolidation alerts</b>: spot orders going the same way so one truck does the work of two</td><td>quoted</td></tr>
+      </table>
+      <p class="cmp-note">Prices shown are for adding a feature to Options 1 and 2. Reorder reminders, dashboards and the orders-on-the-books view are already included in Option 3.</p></div>
+  </div>
+</section>
+
+<!-- The Epicor decision -->
+<section class="slide cream dense" data-title="Epicor decision">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Looking ahead · The Epicor decision</p>
+    <h2>Epicor is ending on-premise. You have time to price your options.</h2>
+    <p class="lede" style="font-size:15px">Epicor's last on-premise Kinetic release is January 2028, with full support through the end of 2029. So there are two ways to go, and a window to choose with your real numbers.</p>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="card"><h3>Path A · Kinetic on your own servers</h3><ul>
+        <li>Supported through 2029, then limited support only. It buys time, not a destination.</li>
+        <li>You keep the license you own. Cost stays near today's, about <b>$15K to $40K a year</b> for maintenance, hosting and help.</li>
+        <li>The upgrade work is quoted separately.</li></ul></div>
+      <div class="card"><h3>Path B · Epicor cloud</h3><ul>
+        <li>A subscription for every named user, forever. About 15 seats (10 full, 5 light) is <b>$29K to $68K a year</b>, mid $47K. That is $145K to $340K over 5 years.</li>
+        <li>Plus the move itself, about <b>$20K to $100K</b>.</li></ul></div>
+    </div>
+    <table class="math" style="margin-top:12px">
+      <tr><th>Stage</th><th>What moves into your app</th><th>Epicor cost it removes per year</th><th>Build cost (my estimate)</th><th>Pays back in</th></tr>
+      <tr class="rec"><td><b>1 · Option 3</b></td><td>Customers, quotes, pipeline, your Epicor data</td><td>none (saves Zoho and connector fees instead)</td><td>$33K – $46K</td><td>see 5-year math</td></tr>
+      <tr><td><b>2</b></td><td>Orders, pricing and customer service (4 to 5 seats)</td><td>about $5K – $12K</td><td>$45K – $65K</td><td>more than 3 years, so not on its own</td></tr>
+      <tr><td><b>3</b></td><td>Inventory, purchasing, costing. Epicor retired, accounting in an off-the-shelf package</td><td>about $20K – $30K<small>net of the new running costs, on the cloud plan</small></td><td>$88K – $133K</td><td>about 3 to 7 years</td></tr>
+    </table>
+    <div class="card" style="margin-top:12px;padding:12px 16px;background:var(--wine);border-color:var(--wine);color:#fff">
+      <p style="margin:0;font-size:15px"><b style="color:var(--cork)">Your CRM works with either path.</b> It keeps its own copy of your data, and the sync is built on an interface both Epicor paths use. The CRM decision does not have to wait for the Epicor one.</p>
+    </div>
+    <p class="cmp-note">Estimates. About 15 seats is my guess from 28 employees and who enters orders. Epicor publishes no price list, so cloud figures come from third-party pricing guides. Most of the saving is Epicor's base fee ($18K to $30K a year), which only goes away when Epicor does, so stages 2 and 3 are decided together. Each stage is taken only if it pays back in under 3 years on your real invoice, and nothing is cut over until it has run side by side with Epicor. Discovery replaces all of this with your invoice, seat count and renewal date.</p>
+  </div>
+</section>
+
+<!-- Discovery -->
+<section class="slide cream dense" data-title="Discovery">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Step 1 · Discovery</p>
+    <h2>Two weeks to pick the right option, with real numbers.</h2>
+    <p class="lede">If you are about to commit to a CRM, this is a two-week, credited check that you are buying the right thing. I would rather prove it before you spend on it.</p>
+    <div class="grid g2">
+      <div class="card"><h3>What I will do</h3><ul>
+        <li><b>Prove the Epicor connection.</b> Confirm your Epicor 10 build, your Kinetic plan, hosting and API access, and pull real customers and orders through it.</li>
+        <li><b>Price your Epicor options.</b> Your seat count, invoice and renewal date, set beside a Kinetic upgrade on your servers and the Epicor cloud.</li>
+        <li><b>Price the ready-made connector for real.</b> Get an actual quote and set it beside a custom sync.</li>
+        <li><b>Map your workflow</b> using five hard cases: a placeholder order, a prepaid customer, net 30 on credit hold, a quote that never converts, a customer in both Epicor systems.</li>
+        <li><b>Read your website numbers</b> with you.</li>
+        <li><b>Set your baseline:</b> average order, margin and quote conversion today.</li>
+        <li class="mini" style="margin-top:8px"><b>Your time:</b> about 6 hours across the two weeks. A kickoff, two workflow sessions with sales and customer service, one Epicor access call with IT, and the review.</li></ul></div>
+      <div class="card"><h3>What you get</h3><ul>
+        <li>A <b>fixed price</b> for the option you choose</li>
+        <li>The workflow map, data map and sync design, <b>yours to keep</b> whoever builds it</li>
+        <li>A plain recommendation. If the cheaper option is the better one, I will say so</li>
+        <li>A payback target built on your numbers</li>
+        <li><b>No obligation</b> to build with me</li></ul>
+        <p class="price" style="margin-top:14px">$4,500 fixed</p>
+        <p class="mini">$2,250 at the start, $2,250 on delivery. October 19 to 30. <b>Credited in full toward your build</b> if you go ahead within 30 days.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Investment: the math -->
+<section class="slide cream dense" data-title="Investment math">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Step 2 · Choose how much you want to own</p>
+    <h2>I recommend Option 3, because it takes the software tax off every new hire.</h2>
+    <p class="lede" style="font-size:15px">You do not have to know your growth plan. If the team stays at 10, Option 3 costs about $3K less than renting over 5 years and about $10K more than Option 2. Every new user costs $0. Priced at $130 an hour, 10 users, after a $4,500 Discovery that is credited to your build.</p>
+    <table class="math">
+      <tr><th></th><th>Option 1<small>Rent it</small></th><th>Option 2<small>Own the connection</small></th><th class="rec"><span class="badge2">Recommended</span>Option 3<small>Own it all</small></th></tr>
+      <tr><td class="rl">What you get</td><td>Zoho Enterprise + a ready-made connector</td><td>Zoho Enterprise + a sync I build and you own</td><td class="rec">A CRM built around your business, Epicor sync included</td></tr>
+      <tr><td class="rl">One-time setup</td><td>$15K – $26K</td><td>$14K – $26K</td><td class="rec"><b>$33K – $46K</b></td></tr>
+      <tr><td class="rl">Software, per year</td><td>$7.8K – $10.8K<small>Zoho Enterprise $4.8K, connector $3K – $6K</small></td><td>$4.8K<small>Zoho Enterprise seats</small></td><td class="rec"><b>$0</b><small>no seats, no connector</small></td></tr>
+      <tr><td class="rl">Hosting and help, per year<small>Care Plan: server, backups, updates, help</small></td><td>about $1.6K<small>help when needed, 12 hours at $130. The vendor hosts it</small></td><td>$3K<small>$250 a month</small></td><td class="rec"><b>$6K</b><small>$500 a month</small></td></tr>
+      <tr class="tot"><td class="rl">Total per year</td><td>$9.4K – $12.4K</td><td>$7.8K</td><td class="rec"><b>$6K</b></td></tr>
+      <tr><td class="rl">Cost of one more user</td><td>$480 + about $300 a year</td><td>$480 a year</td><td class="rec"><b>$0</b></td></tr>
+      <tr class="tot"><td class="rl">5-year total</td><td>$62K – $87K</td><td>$55K – $68K</td><td class="rec"><b>$64K – $79K</b></td></tr>
+            <tr><td class="rl">You own</td><td>Your data and setup</td><td>The sync, plus your data</td><td class="rec"><b>All of it</b></td></tr>
+    </table>
+    <h3 style="margin-top:12px;font-size:16px">What it costs to be wrong, over 5 years, compared with renting</h3>
+    <div class="tiles bet" style="grid-template-columns:repeat(4,1fr);margin-top:6px">
+      <div class="tile mine"><p style="margin:0">Team stays at 10</p><div class="n">about $3K less</div></div>
+      <div class="tile mine"><p style="margin:0">Grows to 15</p><div class="n">about $23K less</div></div>
+      <div class="tile mine"><p style="margin:0">Grows to 20</p><div class="n">about $42K less</div></div>
+      <div class="tile mine"><p style="margin:0">Grows to 30</p><div class="n">about $81K less</div></div>
+    </div>
+    <p class="cmp-note"><b>Care Plan:</b> one flat monthly fee ($500 for Option 3, $250 for Option 2) for the server, backups, updates, fixes when Epicor changes (or Zoho, for Option 2) and up to 2 hours of help a month (1 for Option 2). Extra help is $130 an hour. Connector fees are an estimate, confirmed in Discovery. The Discovery fee is credited to your build, so these totals are what you pay. Compared with Option 2, Option 3 costs about $10K more at 10 users and less from about 14 users.</p>
+  </div>
+</section>
+
+<!-- Investment: terms -->
+<section class="slide light dense" data-title="Investment terms">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Why Option 3 is priced fairly</p>
+    <h2>Priced below Bay Area agency rates, with the terms in writing.</h2>
+    <div class="tiles">
+      <div class="tile"><div class="n">$30K – $60K</div><p>What agencies typically quote for a basic custom CRM, before any ERP integration</p></div>
+      <div class="tile"><div class="n">$38K – $70K</div><p>The same 250 to 350 hours at Bay Area agency rates, $150 to $200 an hour</p></div>
+      <div class="tile mine"><div class="n">$33K – $46K</div><p>Option 3, at $130 an hour, with the Epicor sync built in</p></div>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card"><h3>How you pay</h3><ul>
+        <li><b>Discovery:</b> $4,500, half at the start and half on delivery, credited toward your build if you start within 30 days</li>
+        <li><b>Options 1 and 2:</b> 50% at build start, 50% at go-live</li>
+        <li><b>Option 3:</b> 30% at start, 40% at first release, 30% at launch</li></ul></div>
+      <div class="card"><h3>After launch</h3><ul>
+        <li>30 days of fixes included</li>
+        <li><b>Care Plan:</b> $500 a month for Option 3, $250 for Option 2. Server, backups, updates and help (up to 2 hours a month, 1 for Option 2), all in one flat fee</li>
+        <li>Pay a year ahead and save 10% ($5,400 for Option 3, $2,700 for Option 2)</li>
+        <li>Extra help is $130 an hour. Cancel the Care Plan any time with 30 days' notice</li></ul></div>
+      <div class="card"><h3>In writing</h3><ul>
+        <li>Fixed price: overruns are on me</li>
+        <li>Nothing starts without your written approval</li>
+        <li>The code, data and documentation are yours, and you can move them to your own server any time, with a full handoff</li>
+        <li>Discovery is yours to keep</li></ul></div>
+    </div>
+    <p class="cmp-note">Add-ons later, built on the same $130 an hour: reorder reminders about $3,250, call-note capture about $2,600, orders-on-the-books view about $3,250, marketing results about $2,000. Reorder reminders, dashboards and the orders-on-the-books view are already included in Option 3. Budget set? Tell me your number and I will show you what fits.</p>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="slide light dense" data-title="Timeline">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Timeline</p>
+    <h2>Discovery in October. Live before the holidays, or early in the new year.</h2>
+    <p class="lede">Dates assume you say "go" by Friday, October 16. Each week of delay moves the launch a week.</p>
+    <table>
+      <tr><th>When</th><th>Stage</th><th>What you get</th></tr>
+      <tr><td>Oct 19 – 30</td><td><b>Discovery</b></td><td>Epicor connection proven, workflow mapped, connector priced, website numbers reviewed, a fixed price for your chosen option.</td></tr>
+      <tr><td>Nov 2 – 6</td><td><b>Your review</b></td><td>You choose the option. Your written approval opens the build.</td></tr>
+      <tr><td>Nov 9 – Dec 11</td><td><b>Option 1 build</b></td><td>Zoho configured, connector live, data loaded, website form on a test page. <b>Go-live Dec 14.</b></td></tr>
+      <tr><td>Nov 9 – Dec 18</td><td><b>Option 2 build</b></td><td>Zoho configured, custom sync built and tested against your Epicor, website form. <b>Go-live Jan 11</b> (holidays built in).</td></tr>
+      <tr><td>Nov 9 – Feb 12</td><td><b>Option 3 build</b></td><td>Built in stages. <b>First release Jan 25</b> (accounts, pipeline, Epicor sync), <b>full launch Feb 22</b>.</td></tr>
+      <tr><td>30 days after</td><td><b>Support</b></td><td>Fixes and a results check-in at no extra cost. The Care Plan starts after these 30 days.</td></tr>
+    </table>
+    <p class="mini" style="margin-top:12px"><b>What I need from you:</b> admin access to Zoho and your website analytics, a read-only way into Epicor, an IT contact, your Kinetic move dates and who is running it, one salesperson to work through the workflow with me, and quick decisions. Build dates are estimates until Discovery fixes the scope.</p>
+  </div>
+</section>
+
+<!-- 11 · Questions -->
+<section class="slide light dense" data-title="Your questions">
+  <img class="corner-logo" alt="" onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+  <div class="slide-content">
+    <p class="eyebrow">Your questions, point by point</p>
+    <h2>What came up in our conversation, and the answer.</h2>
+    <table>
+      <tr><th>You asked</th><th>Answer</th></tr>
+      <tr><td>Can we keep our current process?</td><td>Yes. Nothing changes upstream or downstream. This adds visibility on top.</td></tr>
+      <tr><td>What if we want a new feature later?</td><td>I quote it up front, at $130 an hour with no minimum, and build it. Examples and prices are on the new-features slide.</td></tr>
+      <tr><td>Do we have to use AI?</td><td>No. Nothing in the base build uses it. If you choose it later, it only drafts, and a person reviews and sends.</td></tr>
+      <tr><td>Is proprietary data safe?</td><td>No proprietary data goes into public AI models. In Options 2 and 3, your data lives on a server I manage under the Care Plan, with backups, and you can move it to your own server any time.</td></tr>
+      <tr><td>We cannot spend $100,000 on this.</td><td>Correct, and you do not need to. Setup runs from about $14K to $46K depending on how much you want to own, after a $4,500 Discovery that is credited toward your build, with a fixed price you approve first. Longer-term stages, like moving off Epicor, are separate decisions made later on your real numbers.</td></tr>
+      <tr><td>What happens when we move to Kinetic?</td><td>The sync is built on Epicor's current REST interface, which Kinetic uses too, so it carries over. A small reserve for the update is already in the numbers, and I test against your Kinetic environment before you cut over. Epicor is also ending on-premise support in stages (final release January 2028, support through 2029), so you have time to compare paths. Discovery confirms your exact Epicor 10 build and prices both.</td></tr>
+      <tr><td>What if we do not grow?</td><td>Over 5 years at 10 users, Option 3 costs about $3K less than renting and about $10K more than Option 2. You still own it, and you can add features at a quoted price.</td></tr>
+      <tr><td>What if you are not available?</td><td>The code, documentation and data are yours and use standard, widely used tools, so any developer can take over. You can cancel the Care Plan any time and move everything to your own server.</td></tr>
+      <tr><td>Who looks after a custom tool?</td><td>The Care Plan: one flat monthly fee covers the server, backups, updates and help when you need it. The code and documentation are yours, so you can take it to any developer.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 12 · Let's go -->
+<section class="slide dark forest" data-title="Let's go">
+  <div class="slide-content center">
+    <img class="hero-logo" style="height:clamp(70px,10vw,110px);margin-bottom:18px" alt="M. A. Silva. The perfect fit for your wine." onerror="this.style.display='none'" src="https://www.masilva.com/wp-content/uploads/2021/08/M.A.SILVA_LOGO.png">
+    <p class="eyebrow">Next steps</p>
+    <h2>Let's build it.</h2>
+    <p class="lede">Say "go" by Friday, October 16 and Discovery starts Monday, October 19. First look at your website numbers by October 23; full package and fixed price by October 30.</p>
+    <div class="grid g3" style="text-align:left;margin-top:26px">
+      <div class="card"><span class="num">1</span><h3>Reply "go"</h3><p>I send the Discovery agreement and a short confidentiality agreement.</p></div>
+      <div class="card"><span class="num">2</span><h3>Kickoff · Oct 19</h3><p>60 minutes with you and your sales lead. Share Zoho, analytics, and Epicor access.</p></div>
+      <div class="card"><span class="num">3</span><h3>Package · Oct 30</h3><p>Workflow map, sync design, and a fixed price for the option you choose. You decide, with no obligation to build with me.</p></div>
+    </div>
+    <a class="btn" href="https://calendar.app.google/93NLV73sQd1DXuUB6" target="_blank" rel="noopener">Questions first? Book a call with me</a>
+    <p class="mini" style="margin-top:22px">Budget in mind? Tell me the number and I will show you exactly what fits.<br>Gera Yeremin · 707.694.5624 · why57.com</p>
+  </div>
+</section>
+
+
+
+</div>
+
+<div class="nav-band"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="byline">Prepared for M. A. Silva USA by Gera Yeremin · 57</div>
+<div class="nav" id="dots"></div>
+<div class="nav-arrows"><button class="nav-arrow" id="prev" aria-label="Previous">←</button><button class="nav-arrow" id="next" aria-label="Next">→</button></div>
+<div class="progress"><span id="bar"></span></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')),i=0;
+  var dots=document.getElementById('dots'),counter=document.getElementById('counter'),bar=document.getElementById('bar');
+  slides.forEach(function(s,n){var b=document.createElement('button');b.className='nav-dot';b.setAttribute('aria-label',s.dataset.title||('Slide '+(n+1)));b.onclick=function(){go(n)};dots.appendChild(b)});
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);s.classList.toggle('prev',k<i)});
+    [].forEach.call(dots.children,function(d,k){d.classList.toggle('active',k===i)});
+    counter.textContent=(i+1)+' / '+slides.length;
+    bar.style.width=((i+1)/slides.length*100)+'%';
+    document.body.classList.toggle('on-dark',slides[i].classList.contains('dark'));
+    document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===slides.length-1;
+    slides[i].scrollTop=0;history.replaceState(null,'','#'+(i+1));
+    requestAnimationFrame(fit);
+  }
+  function fit(){
+    var sl=slides[i],c=sl.querySelector('.slide-content');if(!c)return;
+    c.style.zoom='';
+    if(window.innerWidth<=900)return;
+    var cs=getComputedStyle(sl),avail=sl.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),h=c.getBoundingClientRect().height;
+    if(h>avail+1)c.style.zoom=Math.max(.68,avail/h);
+  }
+  window.addEventListener('resize',function(){fit()});
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.addEventListener('keydown',function(e){
+    if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON')&&e.key!=='Enter'){if(e.key.indexOf('Arrow')===0||e.key===' '||e.key==='Home'||e.key==='End')return}
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+  });
+  var x0=null;
+  var y0=0;document.addEventListener('touchstart',function(e){if(e.target&&e.target.tagName==='INPUT'){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',function(e){if(x0===null)return;var d=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(d)>70&&Math.abs(d)>1.6*Math.abs(dy))go(i+(d<0?1:-1));x0=null},{passive:true});
+  var h=parseInt((location.hash||'').slice(1),10);go(h>0?h-1:0);
+  window.addEventListener('hashchange',function(){var n=parseInt((location.hash||'').slice(1),10);if(n>0&&n<=slides.length)go(n-1)});
+})();
+</script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  if(!$('gm-chart'))return;
+  var H=5;
+  function money(v){if(Math.abs(v)>=1e6)return '$'+(Math.round(v/1e5)/10)+'M';return '$'+(Math.abs(v)>=100000?Math.round(v/1000):(Math.round(v/100)/10))+'K'}
+  function model(u0,g,p,h){
+    var o={o1:[20150],o2:[20200],o3:[39000],u:[]};
+    for(var t=1;t<=h;t++){
+      var u=u0+g*(t-1), f=Math.pow(1+p,t-1);
+      var conn=Math.max(1800,4500+300*(u-10));
+      var y1=(480*u+conn)*f+1560, y2=480*u*f+3000, y3=6000, r=(t===3)?2340:0;
+      o.o1.push(o.o1[t-1]+y1); o.o2.push(o.o2[t-1]+y2+r); o.o3.push(o.o3[t-1]+y3+r); o.u.push(u);
+    }
+    return o;
+  }
+  function render(){
+    var u0=+$('gm-u0').value,g=+$('gm-g').value,p=+$('gm-p').value/100;
+    $('gm-u0-v').textContent=u0; $('gm-g-v').textContent=g; $('gm-p-v').textContent=Math.round(p*100)+'%';
+    var m=model(u0,g,p,H), end=H;
+    $('gm-title').textContent='Total cost over '+H+' years';
+    $('gm-o1').textContent=money(m.o1[end]); $('gm-o2').textContent=money(m.o2[end]); $('gm-o3').textContent=money(m.o3[end]);
+    $('gm-users').innerHTML='Users: <b>'+u0+'</b> today, <b>'+m.u[end-1]+'</b> in year '+end+'.';
+    // result sentence
+    var save1=m.o1[end]-m.o3[end], save2=m.o2[end]-m.o3[end], cross=null;
+    for(var t=1;t<=end;t++){var d0=m.o1[t-1]-m.o3[t-1],d1=m.o1[t]-m.o3[t];if(d0<0&&d1>=0){cross=(t-1)+(-d0)/(d1-d0);break}}
+    var msg;
+    if(m.o1[0]-m.o3[0]>=0){msg='Own it all is the lower-cost choice from day one.'}
+    else if(cross!==null){msg='Own it all becomes cheaper than renting at about <b>year '+(Math.round(cross*10)/10)+'</b>.'}
+    else{msg='Within '+end+' years renting stays cheaper at these numbers. Add more users or years to see where it crosses.'}
+    if(save1>0)msg+=' Over '+end+' years it saves <b>'+money(save1)+'</b> versus renting'+(save2>0?' and <b>'+money(save2)+'</b> versus owning only the connection':'')+'.';
+    else if(save1<0)msg+=' At these numbers, renting costs '+money(-save1)+' less over '+end+' years.';
+    $('gm-result').innerHTML=msg;
+    // chart
+    var all=m.o1.concat(m.o2,m.o3), maxv=Math.max.apply(null,all), top=Math.max(40000,Math.ceil(maxv/40000)*40000);
+    var X=function(t){return 50+t*(490/end)}, Y=function(v){return 210-v*(190/top)};
+    var svg='';
+    for(var k=0;k<=4;k++){var v=top*k/4,y=Y(v);svg+='<line x1="50" y1="'+y+'" x2="540" y2="'+y+'" stroke="#E4DCD2"/><text x="44" y="'+(y+4)+'" text-anchor="end">'+(v>=1e6?'$'+(Math.round(v/1e5)/10)+'M':'$'+Math.round(v/1000)+'K')+'</text>'}
+    var step=end>5?2:1;
+    for(var t=0;t<=end;t+=step){svg+='<text x="'+X(t)+'" y="230" text-anchor="middle">'+(t===0?'Now':'Yr '+t)+'</text>'}
+    function line(a,col,w,dash){var pts=a.map(function(v,t){return X(t)+','+Y(v)}).join(' ');return '<polyline fill="none" stroke="'+col+'" stroke-width="'+w+'" '+(dash?'stroke-dasharray="'+dash+'" ':'')+'points="'+pts+'"/>'}
+    svg+=line(m.o1,'#A3968E',3,'7 5')+line(m.o2,'#A48D29',3,'2 4')+line(m.o3,'#472B29',4.5,'');
+    if(cross!==null){var f=Math.floor(cross),c=Math.min(end,f+1),yv=m.o3[f]+(m.o3[c]-m.o3[f])*(cross-f);svg+='<circle cx="'+X(cross)+'" cy="'+Y(yv)+'" r="6" fill="#FFBC7D" stroke="#472B29" stroke-width="2"/>'}
+    $('gm-chart').innerHTML=svg;
+  }
+  ['gm-u0','gm-g','gm-p'].forEach(function(id){$(id).addEventListener('input',render)});
+  [].forEach.call(document.querySelectorAll('#gm-h button'),function(b){b.addEventListener('click',function(){H=+b.dataset.h;[].forEach.call(document.querySelectorAll('#gm-h button'),function(x){x.classList.toggle('on',x===b)});render()})});
+  render();
+})();
+(function(){var a=document.querySelector('a[href="LOOM_LINK_HERE"]');if(a)a.style.display='none'})();
+</script>
+<script>
+(function(){
+  function labelFor(th){var c=th.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge2'),function(b){b.remove()});var sm=c.querySelector('small');var smt=sm?sm.textContent.replace(/\s+/g,' ').trim():'';if(sm)sm.remove();var main=c.textContent.replace(/\s+/g,' ').trim();if(/^Option \d$/.test(main)&&smt)main=main+' · '+smt;return main}
+  [].forEach.call(document.querySelectorAll('.slide-content table'),function(t){
+    if(t.classList.contains('receipt')||t.classList.contains('short'))return;
+    var rows=t.querySelectorAll('tr'); if(!rows.length)return;
+    var head=rows[0]; var ths=head.querySelectorAll('th'); if(!ths.length)return;
+    var labels=[].map.call(ths,labelFor);
+    head.classList.add('hdr'); t.classList.add('stackable'); if(!t.classList.contains('math'))t.classList.add('text');
+    [].forEach.call(rows,function(r,i){ if(i===0)return; [].forEach.call(r.children,function(td,j){ if(labels[j])td.setAttribute('data-label',labels[j]) }) });
+  });
+})();
+</script>
+</body>
+</html>
